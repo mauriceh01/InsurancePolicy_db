@@ -187,7 +187,7 @@ CREATE TABLE Beneficiaries (
     FirstName 				VARCHAR(50),
     LastName 				VARCHAR(50),
     Relationship 			VARCHAR(30),
-    SharePercentage 		DECIMAL(5,2),
+    SharePercentage 			DECIMAL(5,2),
     FOREIGN KEY (PolicyNum) REFERENCES Policies(PolicyNum)
 );
 
@@ -199,7 +199,7 @@ CREATE TABLE Adjusters (
     AdjusterID 				INT PRIMARY KEY AUTO_INCREMENT,
     FirstName 				VARCHAR(50),
     LastName 				VARCHAR(50),
-    Email 					VARCHAR(100),
+    Email 				VARCHAR(100),
     PhoneNumber 			VARCHAR(20)
 );
 
@@ -208,12 +208,12 @@ CREATE TABLE Adjusters (
 -- ===================================================
 
 CREATE TABLE Underwriting (
-    UWID 					INT PRIMARY KEY AUTO_INCREMENT,
+    UWID 				INT PRIMARY KEY AUTO_INCREMENT,
     PolicyNum 				INT,
     RiskScore 				DECIMAL(4,1),
     Decision 				VARCHAR(20),
-    UWDate 					DATE,
-    Notes 					TEXT,
+    UWDate 				DATE,
+    Notes 				TEXT,
     FOREIGN KEY (PolicyNum) REFERENCES Policies(PolicyNum)
 );
 
@@ -271,7 +271,7 @@ CREATE TABLE LoginAccounts (
     AgentID 				INT,
     Username 				VARCHAR(50) UNIQUE,
     PasswordHash 			VARCHAR(255),
-    Role 					ENUM('Customer', 'Agent', 'Admin'),
+    Role 				ENUM('Customer', 'Agent', 'Admin'),
     LastLogin 				DATETIME,
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
     FOREIGN KEY (AgentID) 	REFERENCES Agents(AgentID)
@@ -305,9 +305,9 @@ CREATE TABLE CustomerInteractions (
     InteractionID 			INT PRIMARY KEY AUTO_INCREMENT,
     CustomerID 				INT,
     AgentID 				INT,
-    InteractionDate 		DATETIME,
-    InteractionType 		VARCHAR(50),
-    Notes 					TEXT,
+    InteractionDate 			DATETIME,
+    InteractionType 			VARCHAR(50),
+    Notes 				TEXT,
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
     FOREIGN KEY (AgentID) 	REFERENCES Agents(AgentID)
 );
@@ -322,8 +322,8 @@ CREATE TABLE Offices (
     OfficeID 				INT PRIMARY KEY AUTO_INCREMENT,
     OfficeName 				VARCHAR(100),
     Address 				VARCHAR(255),
-    City 					VARCHAR(50),
-    State 					VARCHAR(2),
+    City 				VARCHAR(50),
+    State 				VARCHAR(2),
     ZipCode 				VARCHAR(10),
     PhoneNumber 			VARCHAR(20)
 );
