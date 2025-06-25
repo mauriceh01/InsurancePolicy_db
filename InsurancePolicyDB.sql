@@ -60,13 +60,13 @@ CREATE TABLE Customers (
     FirstName 				VARCHAR(50),
     LastName 				VARCHAR(50),
     DateOfBirth 			DATE,
-	Address 				VARCHAR(200),
-    City 					VARCHAR(20),
-    State 					VARCHAR(2),
+    Address 				VARCHAR(200),
+    City 				VARCHAR(20),
+    State 				VARCHAR(2),
     ZipCode 				VARCHAR(5),
     PhoneNumber 			VARCHAR(20),
-    Email 					VARCHAR(100),
-    CreditCardNum		    VARCHAR(16),
+    Email 				VARCHAR(100),
+    CreditCardNum		   	VARCHAR(16),
     CardExpDate 			DATE
 
 );
@@ -77,13 +77,13 @@ CREATE TABLE Customers (
 -- ===================================================
 
 CREATE TABLE Policies (
-	PolicyNum 				INT PRIMARY KEY AUTO_INCREMENT,
+    PolicyNum 				INT PRIMARY KEY AUTO_INCREMENT,
     Customer_ID 			INT,
     Policy_Type 			VARCHAR(15),
     Effective_Date 			DATE,
-    Expiration_Date 		DATE,
+    Expiration_Date 			DATE,
     Premium_Amt 			DECIMAL,
-    Coverage_Detail 		TEXT,
+    Coverage_Detail 			TEXT,
     Beneficiary 			VARCHAR(40),
     Status  				ENUM('Active','Cancelled','New'),
     FOREIGN KEY (Customer_ID) REFERENCES Customers(CustomerID)
@@ -94,7 +94,7 @@ CREATE TABLE Policies (
 -- ===================================================
 
 CREATE TABLE Claims (
-	ClaimID 				INT PRIMARY KEY AUTO_INCREMENT,
+    ClaimID 				INT PRIMARY KEY AUTO_INCREMENT,
     PolicyNum 				INT,
     Claim_Date 				DATE,
     Claim_Type 				VARCHAR(10),
@@ -129,11 +129,11 @@ CREATE TABLE Vehicles (
 -- ===================================================
 
 CREATE TABLE  Agents (
-	AgentID 				INT PRIMARY KEY, 
+    AgentID 				INT PRIMARY KEY, 
     OfficeID				INT,
     FirstName 				VARCHAR(20),
     LastName  				VARCHAR(20),
-    Email	  				VARCHAR(50),
+    Email	  			VARCHAR(50),
     PhoneNum  				VARCHAR(15),
     AgentAddress 			VARCHAR(200),
     AgentArea 				VARCHAR(3),
@@ -335,15 +335,15 @@ CREATE TABLE Offices (
 -- This logs system-level events like data changes, logins, and administrative actions.
 
 CREATE TABLE AuditLogs (
-    LogID 					INT PRIMARY KEY AUTO_INCREMENT,
+    LogID 				INT PRIMARY KEY AUTO_INCREMENT,
     UserType 				ENUM('Customer', 'Agent', 'Admin'),
-    UserID 					INT,
+    UserID 				INT,
     ActionType 				VARCHAR(50), -- e.g. 'UPDATE_POLICY', 'LOGIN', 'DELETE_CLAIM'
     TableAffected 			VARCHAR(50),
     RecordID 				INT, -- e.g., affected PolicyNum, ClaimID, etc.
     ActionDetails 			TEXT,
-    ActionTimestamp 		DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) 	REFERENCES Users(UserID)
+    ActionTimestamp 			DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 -- ===================================================
@@ -358,7 +358,7 @@ CREATE TABLE Invoices (
     InvoiceDate 			DATE,
     DueDate 				DATE,
     TotalAmount 			DECIMAL(10,2),
-    Status 					ENUM('Unpaid', 'Paid', 'Overdue'),
+    Status 				ENUM('Unpaid', 'Paid', 'Overdue'),
     FOREIGN KEY (PolicyNum) REFERENCES Policies(PolicyNum)
 );
 
@@ -371,8 +371,8 @@ CREATE TABLE Invoices (
 CREATE TABLE PolicyEndorsements (
     EndorsementID 			INT PRIMARY KEY AUTO_INCREMENT,
     PolicyNum 				INT,
-    EndorsementDate 		DATE,
-    ChangeDescription 		TEXT,
+    EndorsementDate 			DATE,
+    ChangeDescription 			TEXT,
     EffectiveDate 			DATE,
     FOREIGN KEY (PolicyNum) REFERENCES Policies(PolicyNum)
 );
@@ -389,9 +389,9 @@ CREATE TABLE Disputes (
     CustomerID 				INT,
     SubmittedDate 			DATE,
     DisputeReason 			TEXT,
-    ResolutionStatus 		VARCHAR(50),
-    ResolutionNotes 		TEXT,
-    FOREIGN KEY (ClaimID) 	 REFERENCES Claims(ClaimID),
+    ResolutionStatus 			VARCHAR(50),
+    ResolutionNotes 			TEXT,
+    FOREIGN KEY (ClaimID)  REFERENCES Claims(ClaimID),
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
 );
 
@@ -408,8 +408,8 @@ CREATE TABLE MarketingCampaigns (
     StartDate 				DATE,
     EndDate 				DATE,
     TargetAudience 			VARCHAR(100), -- e.g. 'New Leads', 'Expired Policies'
-    Budget 					DECIMAL(10, 2),
-    Notes 					TEXT
+    Budget 				DECIMAL(10, 2),
+    Notes 				TEXT
 );
 
 -- ===================================================
@@ -435,14 +435,14 @@ CREATE TABLE CampaignRecipients (
 -- This table provides a single user identity for authentication, authorization, and auditing:
 
 CREATE TABLE Users (
-    UserID 					INT PRIMARY KEY AUTO_INCREMENT,
-    Role 					ENUM('Customer', 'Agent', 'Admin') NOT NULL,
+    UserID 				INT PRIMARY KEY AUTO_INCREMENT,
+    Role 				ENUM('Customer', 'Agent', 'Admin') NOT NULL,
     ReferenceID 			INT NOT NULL, -- links to CustomerID or AgentID depending on Role
     Username 				VARCHAR(50) UNIQUE NOT NULL,
     PasswordHash 			VARCHAR(255) NOT NULL,
-    Email 					VARCHAR(100),
+    Email 				VARCHAR(100),
     LastLogin 				DATETIME,
-    Status 					ENUM('Active', 'Suspended', 'Deactivated') DEFAULT 'Active'
+    Status 				ENUM('Active', 'Suspended', 'Deactivated') DEFAULT 'Active'
 );
 
 -- ===================================================
@@ -455,8 +455,8 @@ CREATE TABLE Admins (
     AdminID 				INT PRIMARY KEY AUTO_INCREMENT,
     FirstName 				VARCHAR(50),
     LastName 				VARCHAR(50),
-    Email 					VARCHAR(100),
-    Phone 					VARCHAR(20)
+    Email 				VARCHAR(100),
+    Phone 				VARCHAR(20)
 );
 
 -- ===================================================
@@ -470,11 +470,11 @@ CREATE TABLE Appointments (
     CustomerID 				INT,
     AgentID 				INT,
     AdjusterID 				INT,
-    AppointmentDate 		DATETIME,
+    AppointmentDate 			DATETIME,
     MeetingType 			ENUM('Consultation', 'Policy Review', 'Claim Discussion', 'Other'),
-    Notes 					TEXT,
+    Notes 				TEXT,
     FOREIGN KEY (CustomerID) 	REFERENCES Customers(CustomerID),
-    FOREIGN KEY (AgentID) 		REFERENCES Agents(AgentID),
+    FOREIGN KEY (AgentID) 	REFERENCES Agents(AgentID),
     FOREIGN KEY (AdjusterID) 	REFERENCES Adjusters(AdjusterID)
 );
 
@@ -485,15 +485,15 @@ CREATE TABLE Appointments (
 -- Track potential customers, useful for prospecting and cold marketing.
 
 CREATE TABLE Leads (
-    LeadID 					INT PRIMARY KEY AUTO_INCREMENT,
+    LeadID 				INT PRIMARY KEY AUTO_INCREMENT,
     FirstName 				VARCHAR(50),
     LastName 				VARCHAR(50),
     ContactDate 			DATE,
-    Source 					VARCHAR(50), -- e.g. 'Web Form', 'Referral'
-    Phone 					VARCHAR(20),
-    Email 					VARCHAR(100),
-    Status 					ENUM('New', 'Contacted', 'Qualified', 'Converted', 'Rejected'),
-    AssignedAgentID 		INT,
+    Source 				VARCHAR(50), -- e.g. 'Web Form', 'Referral'
+    Phone 				VARCHAR(20),
+    Email 				VARCHAR(100),
+    Status 				ENUM('New', 'Contacted', 'Qualified', 'Converted', 'Rejected'),
+    AssignedAgentID 			INT,
     FOREIGN KEY (AssignedAgentID) REFERENCES Agents(AgentID)
 );
 
@@ -505,12 +505,12 @@ CREATE TABLE Leads (
 
 CREATE TABLE Notifications (
     NotificationID 			INT PRIMARY KEY AUTO_INCREMENT,
-    UserID 					INT,
+    UserID 				INT,
     Message 				TEXT,
-    NotificationType 		ENUM('Info', 'Warning', 'ActionRequired'),
+    NotificationType 			ENUM('Info', 'Warning', 'ActionRequired'),
     CreatedAt 				DATETIME DEFAULT CURRENT_TIMESTAMP,
-    IsRead 					BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (UserID) 	REFERENCES Users(UserID)
+    IsRead 				BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 -- ===================================================
@@ -535,10 +535,10 @@ CREATE TABLE LoginAttempts (
 -- Helps agents or admins track outstanding work.
 
 CREATE TABLE Tasks (
-    TaskID 					INT PRIMARY KEY AUTO_INCREMENT,
-    AssignedToAgentID 		INT,
-    RelatedPolicyNum 		INT,
-    TaskDescription 		TEXT,
+    TaskID 				INT PRIMARY KEY AUTO_INCREMENT,
+    AssignedToAgentID 			INT,
+    RelatedPolicyNum 			INT,
+    TaskDescription 			TEXT,
     TaskStatus 				ENUM('Open', 'In Progress', 'Completed'),
     DueDate 				DATE,
     FOREIGN KEY (AssignedToAgentID) REFERENCES Agents(AgentID),
@@ -552,12 +552,12 @@ CREATE TABLE Tasks (
 -- If you expect many documents per claim, this separates them cleanly:
 
 CREATE TABLE ClaimDocuments (
-    DocID 					INT PRIMARY KEY AUTO_INCREMENT,
+    DocID 				INT PRIMARY KEY AUTO_INCREMENT,
     ClaimID 				INT,
     FileName 				VARCHAR(255),
     FilePath 				VARCHAR(500),
     UploadDate 				DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ClaimID) 	REFERENCES Claims(ClaimID)
+    FOREIGN KEY (ClaimID) REFERENCES Claims(ClaimID)
 );
 
 -- ===================================================
@@ -570,9 +570,9 @@ CREATE TABLE PremiumHistory (
     EntryID 				INT PRIMARY KEY AUTO_INCREMENT,
     PolicyNum 				INT,
     ChangeDate 				DATE,
-    PreviousPremium 		DECIMAL(10,2),
+    PreviousPremium 			DECIMAL(10,2),
     NewPremium 				DECIMAL(10,2),
-    Reason 					TEXT,
+    Reason 				TEXT,
     FOREIGN KEY (PolicyNum) REFERENCES Policies(PolicyNum)
 );
 
@@ -584,10 +584,10 @@ CREATE TABLE PremiumHistory (
 
 CREATE TABLE ReinsurancePartners (
     PartnerID 				INT PRIMARY KEY AUTO_INCREMENT,
-    Name 					VARCHAR(100),
+    Name 				VARCHAR(100),
     ContactEmail 			VARCHAR(100),
     CoverageLimit 			DECIMAL(12,2),
-    Notes 					TEXT
+    Notes 				TEXT
 );
 
 -- ===================================================
@@ -600,10 +600,10 @@ CREATE TABLE PolicyRenewals (
     RenewalID 				INT PRIMARY KEY AUTO_INCREMENT,
     PolicyNum 				INT,
     RenewalDate 			DATE,
-    NewExpirationDate 		DATE,
+    NewExpirationDate 			DATE,
     Premium 				DECIMAL(10,2),
-    RenewedByAgentID 		INT,
-    FOREIGN KEY (PolicyNum) 		REFERENCES Policies(PolicyNum),
+    RenewedByAgentID 			INT,
+    FOREIGN KEY (PolicyNum) REFERENCES Policies(PolicyNum),
     FOREIGN KEY (RenewedByAgentID)  REFERENCES Agents(AgentID)
 );
 
@@ -615,12 +615,12 @@ CREATE TABLE PolicyRenewals (
 
 CREATE TABLE EmailQueue (
     EmailID 				INT PRIMARY KEY AUTO_INCREMENT,
-    UserID 					INT,
-    Subemailqueueject 		VARCHAR(255),
-    Body 					TEXT,
+    UserID 				INT,
+    Subemailqueueject 			VARCHAR(255),
+    Body 				TEXT,
     ScheduledSend 			DATETIME,
-    Sent 					BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (UserID) 	REFERENCES Users(UserID)
+    Sent 				BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 -- ===================================================
@@ -646,13 +646,13 @@ CREATE TABLE PaymentMethods (
 -- This database can power an app or external service:
 
 CREATE TABLE APIKeys (
-    KeyID 					INT PRIMARY KEY AUTO_INCREMENT,
-    UserID 					INT,
+    KeyID 				INT PRIMARY KEY AUTO_INCREMENT,
+    UserID 				INT,
     APIKeyHash 				VARCHAR(255),
     CreatedAt 				DATETIME DEFAULT CURRENT_TIMESTAMP,
     ExpiresAt 				DATETIME,
     IsActive 				BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (UserID) 	REFERENCES Users(UserID)
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 -- ===================================================
@@ -663,14 +663,14 @@ CREATE TABLE APIKeys (
 
 CREATE TABLE Dashboards (
     DashboardID 			INT PRIMARY KEY AUTO_INCREMENT,
-    UserID 					INT,
+    UserID 				INT,
     WidgetName 				VARCHAR(100),
     WidgetType 				ENUM('Chart', 'Table', 'KPI', 'Text'),
     DataSource				VARCHAR(100),
     DisplayOrder 			INT,
-    RefreshInterval 		INT, -- in minutes
+    RefreshInterval 			INT, -- in minutes
     LastUpdated 			DATETIME,
-    FOREIGN KEY (UserID) 	REFERENCES Users(UserID)
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 -- ===================================================
@@ -684,7 +684,7 @@ CREATE TABLE TaxRecords (
     CustomerID 				INT,
     PolicyNum 				INT,
     TaxYear 				YEAR,
-    TaxDocumentType 		ENUM('1099-MISC', '1095-B', 'Other'),
+    TaxDocumentType 			ENUM('1099-MISC', '1095-B', 'Other'),
     DocumentPath 			VARCHAR(500),
     GeneratedDate 			DATE,
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
@@ -702,11 +702,11 @@ CREATE TABLE ThirdPartyVendors (
     VendorName 				VARCHAR(100),
     ServiceType 			ENUM('Medical Exam', 'Background Check', 'Document Delivery', 'Marketing', 'Reinsurance', 'IT Services', 'Other'),
     ContactName 			VARCHAR(50),
-    Phone 					VARCHAR(20),
-    Email 					VARCHAR(100),
+    Phone 				VARCHAR(20),
+    Email 				VARCHAR(100),
     Address 				VARCHAR(255),
-    Status 					ENUM('Active', 'Inactive', 'Blacklisted') DEFAULT 'Active',
-    Notes 					TEXT
+    Status 				ENUM('Active', 'Inactive', 'Blacklisted') DEFAULT 'Active',
+    Notes 				TEXT
 );
 
 -- ===================================================
@@ -716,9 +716,9 @@ CREATE TABLE ThirdPartyVendors (
 -- Support risk zoning, local premiums, catastrophe mapping
 
 CREATE TABLE Geolocation (
-    GeoID 					INT PRIMARY KEY AUTO_INCREMENT,
-    UserID 					INT,
-    AgentID					INT,
+    GeoID 				INT PRIMARY KEY AUTO_INCREMENT,
+    UserID 				INT,
+    AgentID				INT,
     OfficeID				INT,
     GeoType 				ENUM('User', 'Agent', 'Office') NOT NULL,
     Latitude 				DECIMAL(9,6) NOT NULL,
@@ -726,8 +726,8 @@ CREATE TABLE Geolocation (
     GeoTimestamp 			DATETIME DEFAULT CURRENT_TIMESTAMP,
     ZipCode 				VARCHAR(10),
     RiskZone 				VARCHAR(50), -- e.g., 'Flood Zone A', 'Earthquake Zone 3'
-    State 					VARCHAR(2),
-    City 					VARCHAR(50),
+    State 				VARCHAR(2),
+    City 				VARCHAR(50),
     Country 				VARCHAR(50), 
     RiskLevel 				ENUM('Low', 'Medium', 'High', 'Extreme'),
     LastEvaluated 			DATE,
