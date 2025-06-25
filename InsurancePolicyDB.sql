@@ -78,7 +78,7 @@ CREATE TABLE Customers (
 
 CREATE TABLE Policies (
     PolicyNum 				INT PRIMARY KEY AUTO_INCREMENT,
-    Customer_ID 			INT,
+    CustomerID 				INT,
     Policy_Type 			VARCHAR(15),
     Effective_Date 			DATE,
     Expiration_Date 			DATE,
@@ -86,7 +86,7 @@ CREATE TABLE Policies (
     Coverage_Detail 			TEXT,
     Beneficiary 			VARCHAR(40),
     Status  				ENUM('Active','Cancelled','New'),
-    FOREIGN KEY (Customer_ID) REFERENCES Customers(CustomerID)
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
     );
 
 -- ===================================================
